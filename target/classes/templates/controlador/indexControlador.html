@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/baseControlador}">
+<head>
+  <meta charset="UTF-8">
+  <title>Controlador</title>
+
+</head>
+<body>
+<div style="text-align: center" layout:fragment="content">
+  <h1>Benvingut <span th:text="${controlador.nom}"></span></h1>
+</div>
+</body>
+</html>

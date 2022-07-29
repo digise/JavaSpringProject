@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/baseGestor}">
+<head>
+  <title>Afegir nou servei permanent</title>
+  <meta charset="UTF-8" />
+
+</head>
+<body>
+<div layout:fragment="content" >
+  <!--EL primer action es si fuera una página estática-->
+
+    <div >
+      <a type="button" class="btn btn-secondary" th:href="@{/servei/listServeisEspai/{id}(id=${espai.id})}"><i class="fa fa-arrow-alt-circle-left"></i> Atrás</a>
+    </div>
+    <div class="modal-header">
+      <h2 class="modal-title" id="exampleModalLabel">Afegir servei permanent</h2>
+    </div>
+    <div class="modal-body">
+      <div th:if="${#lists.isEmpty(serveis)}">
+        <h5><u>No hi ha més serveis que afegir</u></h5>
+      </div>
+      <div class="form-group mb-2" th:each="servei: ${serveis}">
+        <a class="btn btn-success" type="button" th:href="@{/servei/addServeiPermanentGestor/{id}/{nom}(id=${espai.id}, nom=${servei.nom})}" th:text="${servei.nom}"></a>
+      </div>
+    </div>
+
+</div>
+</body>
+</html>

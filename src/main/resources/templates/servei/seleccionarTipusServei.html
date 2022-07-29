@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/baseResponsable}">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Eleccio de tipus de servei</title>
+
+</head>
+<body>
+<div class="col-2">
+  <a type="button" class="btn btn-danger" th:href="@{/responsable/indexResponsable}"><i class="fa fa-arrow-alt-circle-left"></i> Atrás</a>
+</div>
+<div style="text-align: center" layout:fragment="content">
+  <div class="col-2">
+    <a type="button" class="btn btn-secondary" th:href="@{/responsable/indexResponsable}"><i class="fa fa-arrow-alt-circle-left"></i> Atrás</a>
+  </div>
+  <div class="col-7">
+    <h2 class="my-4">Selecciona el tipus de servei:</h2>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col mb-3">
+        <a th:href="@{/servei/listServeiPermanent}"><button type="button" class="btn btn-primary btn-lg">Serveis permanents</button></a>
+      </div>
+      <div class="w-100"></div>
+      <div class="col mb-3">
+        <a th:href="@{/servei/listServeiEstacional}"><button type="button" class="btn btn-primary btn-lg">Serveis estacionals</button></a>
+      </div>
+      <div class="w-100"></div>
+    </div>
+  </div>
+  <div class="btn-group-vertical">
+  </div>
+</div>
+</body>
+</html>

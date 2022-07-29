@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/baseCiutada}">
+<head>
+    <title>Informació d'un espai public</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-2">
+            <a type="button" class="btn btn-secondary" th:href="@{/espaiPublic/espaisprovincia/{provincia}(provincia=${municipi.provincia.getDescripcion()})}"><i class="fa fa-arrow-alt-circle-left"></i> Atrás</a>
+        </div>
+        <div class="col-7">
+            <h1 class="my-5 text-center" style="font-size: xxx-large"><span th:text="${espai.nom}"></span></h1>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-lg-5 m-4">
+            <img class="card-img" th:src="${espai.imagen}" alt="Card image">
+        </div>
+        <div class="col-lg-4 m-4 align-self-center">
+            <p><b>Provincia: </b><span th:text="${municipi.provincia.getDescripcion()}"></span></p>
+            <p><b>Municipi: </b><span th:text="${municipi.nom}"></span></p>
+            <p><b>Tipus: </b><span th:text="${espai.tipus}"></span></p>
+            <p><b>Terreny: </b><span th:text="${espai.tipusTerreny.getDescripcion()}"></span></p>
+            <p><b>Longitut (en metres):</b>
+                <span th:if="${espai.longitud == 0}">Indeterminat</span>
+                <span th:unless="${espai.longitud == 0}" th:text="${espai.longitud}"></span>
+            </p>
+            <p><b>Amplaria (en metres): </b>
+                <span th:if="${espai.amplaria == 0}">Indeterminat</span>
+                <span th:unless="${espai.amplaria == 0}" th:text="${espai.amplaria}"></span>
+            </p>
+            <p style="text-align: justify"><b>Descripcio: </b><span th:text="${espai.descripcio}"></span></p>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center">
+        <div class="col-lg-4 m-4 align-self-center card">
+            <div class="row">
+                <h2 class="my-2 text-center">Serveis permanents:</h2>
+            </div>
+            <div th:if="${serveiPermanentList.isEmpty()}">
+                <b>No hi ha serveis permanents</b>
+            </div>
+            <div class="row" th:each="serveiPermanent : ${serveiPermanentList}">
+                <p>- <span th:text="${serveiPermanent.getNom()}"></span></p>
+            </div>
+        </div>
+        <div class="col-lg-4 m-4 align-self-center card">
+            <div class="row">
+                <h2 class="my-2 text-center">Serveis estacionals:</h2>
+            </div>
+            <div th:if="${serveiEstacionalList.isEmpty()}">
+                <b>No hi ha serveis estacionals</b>
+            </div>
+            <div class="row" th:each="serveiEstacional : ${serveiEstacionalList}">
+                <p>- <span th:text="${serveiEstacional.getNom() + ' (Horari: ' + serveiEstacional.getHoraInici() + ' - ' + serveiEstacional.getHoraFinal() + ')'}"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center my-4">
+        <div class="col-sm-auto">
+            <h2 class="my-2 text-center">Tipus d'accés:</h2>
+        </div>
+        <div class="col-sm-auto my-1 text-center" th:switch="${espai.tipusAcces.getDescripcion()}">
+            <h2 th:case="'Obert'"><span class="badge-sana badge-obert">Obert</span></h2>
+            <h2 th:case="'Restringit'"><span class="badge-sana badge-restringit">Restringit</span></h2>
+            <h2 th:case="'Tancat'"><span class="badge-sana badge-tancat">Tancat</span></h2>
+        </div>
+    </div>
+
+
+    <!-- Elecció per a la reserva-->
+        <div  class="col card border-primary pt-3" style="max-width: 25rem; border-width: medium;" th:if="${espai.tipusAcces.getDescripcion() == 'Restringit'}">
+            <div th:if="${registrat == 'Registrat'}">
+                <div th:if="${!franges.isEmpty()}">
+                    <div class="row justify-content-center pb-2">
+                        <div class="col-auto">
+                            <h4><b>Dia de la reserva:</b></h4>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center pb-2">
+                        <div class="col-auto">
+                            <form action="#" th:action="@{/espaiPublic/elegirZona}"
+                                  th:object="${dades}" method="post">
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="data">Data: </label>
+                                        <input type="hidden" id="id" name="id" th:field="*{idEspai}">
+                                    </div>
+                                    <div class="col">
+                                        <input type="date" id="data" th:id="data" name="data" th:field="*{diaElegit}">
+                                    </div>
+                                    <div class="col">
+                                        <span><input class="btn btn-outline-primary m-0" type="submit" value="Actualitzar"
+                                                     style="color: #1a1a1a; border-width: thin; border-color: #1a1a1a" /></span>
+                                    </div>
+                                </div>
+                                <div class="row text-danger justify-content-center">
+                                    <td th:if="${#fields.hasErrors('diaElegit')}" th:errors="*{diaElegit}"></td>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center pb-2">
+                        <div class="col-auto">
+                            <p style="color: #777777">Indique el dia i actualitza per a efectuar el canvi</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center pt-5">
+                        <div class="col-auto">
+                            <h4 th:text="${'Franges horaries ( ' + dia.toString() + ' ):'}"></h4>
+                        </div>
+                    </div>
+                    <div th:each="franja : ${franges}" class="row justify-content-center text-center m-1">
+                        <span><a class="btn btn-primary" th:text="${franja.getHoraInici() + ' - ' + franja.getHoraFinal()}"
+                                 th:href="@{/reserva/add/{idEspai}/{idFranja}/{data}(idFranja=${franja.id}, idEspai=${espai.id}, data=${dia.toString()})}"></a></span>
+                    </div>
+
+                </div>
+                <div th:if="${franges.isEmpty()}" class="row justify-content-center">
+                    <div class="col-auto">
+                        <h5><u>No hi ha horaris disponibles</u></h5>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${registrat == 'No registrat'}" class="row justify-content-center">
+                <div class="col-auto">
+                    <h5><u>Per a realitzar reserves has d'iniciar sessió</u></h5>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+</body>
+</html>

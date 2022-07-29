@@ -1,0 +1,19 @@
+.logo-image{
+    width: 140px;
+    height: 65px;
+    overflow: hidden;
+    margin-top: -8px;
+}
+
+.users{
+  text-decoration: none;
+  display:flex;
+  align-items:center;
+}
+
+
+.container-username{
+  display:flex;
+  flex-direction:column;
+
+}

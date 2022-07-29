@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/baseGestor}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="row pb-4">
+        <div class="col-2 pt-3">
+            <a type="button" class="btn btn-secondary" th:href="@{/gestorMunicipal/indexGestor}"><i class="fa fa-arrow-alt-circle-left"></i> Atrás</a>
+        </div>
+        <div class="col-6">
+            <h1 class="my-3" style="text-align: center">Espais públics de <span th:text="${municipi.nom}"></span></h1>
+        </div>
+    </div>
+    <div th:if="${alert != null}" th:text="${alert}" class="alert alert-success" role="alert">
+    </div>
+    <div th:if="${#lists.isEmpty(espais)}">
+        No hi ha reserves d'aquest espai
+    </div>
+    <div th:unless="${#lists.isEmpty(espais)}" class="row" th:each="espai: ${espais}" >
+        <div class="col">
+            <div class="card border-primary mb-3" style="max-width: 50rem;">
+                <div class="card-header"><span th:text="${espai.nom}"></span></div>
+                <div class="row no-gutters">
+                    <div class="col-5 m-4">
+                        <img class="card-img" th:src="${espai.imagen}" alt="Card image cap">
+                    </div>
+                    <div class="col-6 mt-3">
+                        <div class="card-body">
+                            <p><b>Localització: </b><span th:text="${espai.localitzacio}"></span></p>
+                            <p style="text-align: justify"><b>Descripció: </b><span th:text="${espai.descripcio}"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer p-3" align="center">
+                    <div class="mb-2">
+                        <a class="btn btn-primary" th:href="@{/espaiPublic/informacioEspai/{id}(id=${espai.id})}">Més infromació del espai</a>
+                        <a class="btn btn-primary" th:href="@{/reserva/reservesEspai/{id}(id=${espai.id})}">Reserves</a>
+                        <a class="btn btn-primary" th:href="@{/servei/listServeisEspai/{id}(id=${espai.id})}">Serveis Espai</a>
+                        <a class="btn btn-info" th:href="@{/espaiPublic/update/{id}(id=${espai.id})}"><i class="fas fa-edit"></i> Modificar espai</a>
+                    </div>
+                    <div>
+                        <a class="btn btn-success" th:href="@{/zona/list/{id}(id=${espai.id})}"> Llistat zones</a>
+                        <a class="btn btn-success" th:href="@{/franja/list/{id}(id=${espai.id})}"> Llistat franges horaries</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-100"></div>
+
+    </div>
+    <a class="btn btn-success" type="submit" th:href="@{/espaiPublic/add/{id}(id=${municipi.id})}"><i class="fa fa-plus" aria-hidden="true"></i> Afegir espai</a>
+
+
+</div>
+</body>
+</html>

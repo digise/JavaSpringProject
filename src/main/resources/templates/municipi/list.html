@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/baseResponsable}">
+<head>
+    <title>Llista municipis</title>
+    <meta charset="UTF-8" />
+</head>
+<body>
+<div layout:fragment="content" class="row">
+    <div class="col-2">
+        <a type="button" class="btn btn-secondary" th:href="@{/responsable/indexResponsable}"><i class="fa fa-arrow-alt-circle-left"></i> Atrás</a>
+    </div>
+    <div class="col-7">
+        <h1 class="my-3">Llista de municipis</h1>
+    </div>
+    <div th:if="${alert != null}" th:text="${alert}" class="alert alert-danger" role="alert">
+    </div>
+    <div th:if="${#lists.isEmpty(municipis)}">
+        No hi ha municipis
+    </div>
+    <div th:unless="${#lists.isEmpty(municipis)}">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id municipi</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Provincia</th>
+
+            </tr>
+            </thead>
+            <tr class="table-light" th:each="municipi: ${municipis}" th:object="${municipi}">
+                <td th:text="${municipi.id}"></td>
+                <td th:text="${municipi.nom}"></td>
+                <td th:text="${municipi.provincia.getDescripcion()}"></td>
+                <td><a type="button" class="btn btn-info btn-sm"  th:href="@{/gestorMunicipal/gestorsPerMunicipi/{id}(id=${municipi.id})}"><i class="fa fa-edit"></i> Gestionar els gestors</a>
+                    <a type="button" class="btn btn-info btn-sm"  th:href="@{/municipi/update/{id}(id=${municipi.id})}"><i class="fa fa-edit"></i> Editar</a>
+                    <a class="btn btn-danger btn-sm" th:href="@{/municipi/delete/{id}(id=${municipi.id})}"
+                       th:onclick="return confirm('Estàs segur d\'esborrar el municipi amb id ' + [[${municipi.id}]] + ' i amb nom ' + [[${municipi.nom}]] + '?');">
+                        <i class="fas fa-trash"></i> Borrar</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-2">
+        <a class="btn btn-success" type="submit" th:href="@{/municipi/add}"><i class="fa fa-plus" aria-hidden="true"></i> Afegir municipi</a>
+    </div>
+
+
+</div>
+
+</body>
+</html>
